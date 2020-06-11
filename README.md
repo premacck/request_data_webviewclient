@@ -3,6 +3,7 @@ Request Data - WebViewClient
 Android WebViewClient with a custom WebResourceRequest that contains the POST/PUT/... payload of XMLHttpRequest requests
 
 This project is inspired by https://github.com/KeejOow/android-post-webview and draws some code from there.
+Also, this project is a kotlin conversion of https://github.com/KonstantinSchubert/request_data_webviewclient
 
 
 When you need to display a webview to the user on which you need to intercept the HTTP calls and perform them yourself (for example to add additional security), you can do so on Android by registering a `WebViewClient` and implementing 
