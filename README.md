@@ -3,12 +3,13 @@ Request Data - WebViewClient
 Android WebViewClient with a custom WebResourceRequest that contains the POST/PUT/... payload of XMLHttpRequest requests
 
 This project is inspired by https://github.com/KeejOow/android-post-webview and draws some code from there.
+Also, this project is a kotlin conversion of https://github.com/KonstantinSchubert/request_data_webviewclient
 
 
 When you need to display a webview to the user on which you need to intercept the HTTP calls and perform them yourself (for example to add additional security), you can do so on Android by registering a `WebViewClient` and implementing 
 
 ```
-WebResourceResponse shouldInterceptRequest(android.webkit.WebView webview, WebResourceRequest request)
+fun shouldInterceptRequest(webview: WebView?, request: WebResourceRequest?): WebResourceResponse?
 ```
 
 Unfortunately, the `request` object passed to this method does not contain any POST data.
@@ -17,7 +18,7 @@ This project provides a hack around this limitation by injecting a script into t
 
 It provides the `WriteHandlingWebViewClient` class that extends `WebViewClient` and provides the 
 ```
-WebResourceResponse shouldInterceptRequest(final WebView view, WriteHandlingWebResourceRequest request)
+fun shouldInterceptRequest(view: WebView?, request: WriteHandlingWebResourceRequest?): WebResourceResponse?
 ```
 method to override.
 
@@ -37,14 +38,13 @@ which returns the data in the request body of the AJAX request.
  # Example usage 
  
  ```
- webView.setWebViewClient(new WriteHandlingWebViewClient() {
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, WriteHandlingWebResourceRequest request) {
+ webView.webViewClient = object : WriteHandlingWebViewClient(webView) {
+    override fun shouldInterceptRequest(view: WebView?, request: WriteHandlingWebResourceRequest?): WebResourceResponse? {
          // works the same as WebViewClient.shouldOverrideUrlLoading, 
          // but you have request.getAjaxData() which gives you the 
          // request body
     }
-});
+}
 ```
 
 # What about forms? What about other kind of http requests?
